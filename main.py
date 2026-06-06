@@ -84,10 +84,10 @@ def get_stats():
 @app.post("/api/prompt")
 def query_rag(request: PromptRequest):
     """Processes RAG workflow and returns answers strictly based on context."""
-    # 1. Convert user question into an embedding vector
+    # Convert user question into an embedding vector
     query_vector = get_query_embedding(request.question)
 
-    # 2. Query Pinecone to retrieve the top closest vector contexts
+    # Query Pinecone to retrieve the top closest vector contexts
     try:
         pinecone_res = index.query(
             vector=query_vector,
@@ -97,7 +97,7 @@ def query_rag(request: PromptRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Pinecone query failed: {str(e)}")
 
-    # 3. Format context blocks for the JSON response and building the LLM context
+    # Format context blocks for the JSON response and building the LLM context
     context_list = []
     context_passages = []
 
@@ -117,7 +117,7 @@ def query_rag(request: PromptRequest):
             f"---"
         )
 
-    # 4. Construct the required strict system prompt from the instructions
+    # Construct the required strict system prompt from the instructions
     system_prompt = (
         "You are a Medium-article assistant that answers questions strictly and only "
         "based on the Medium articles dataset context provided to you (metadata and article passages). "
@@ -126,19 +126,21 @@ def query_rag(request: PromptRequest):
         "respond: \"I don't know based on the provided Medium articles data.\"\n"
         "Always explain your answer using the given context, quoting or paraphrasing the relevant "
         "article passage or metadata when helpful."
+        "You are allowed to summarize and connect facts directly stated in the context to answer"
+        "the user's question, as long as you do not bring in outside knowledge."
     )
 
-    # 5. Build the user prompt injection containing the retrieved facts
+    # Build the user prompt injection containing the retrieved facts
     context_str = "\n".join(context_passages)
     user_prompt = (
         f"Retrieved Context Passages:\n{context_str}\n\n"
         f"User Question: {request.question}"
     )
 
-    # 6. Generate final answered response via gpt-5-mini
+    # Generate final answered response via gpt-5-mini
     llm_response = get_chat_response(system_prompt, user_prompt)
 
-    # 7. Return exact JSON structural specifications outlined in the assignment
+    # Return exact JSON structural specifications outlined in the assignment
     return {
         "response": llm_response,
         "context": context_list,
