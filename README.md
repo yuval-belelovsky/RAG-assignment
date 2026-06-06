@@ -1,6 +1,6 @@
 # Medium Article RAG Assistant
 
-[cite_start]An efficient Retrieval-Augmented Generation (RAG) system built to answer questions about a corpus of roughly 7,600 Medium articles[cite: 4, 8]. [cite_start]The system relies strictly on the provided dataset context to eliminate hallucinations and deliver evidence-based responses[cite: 5].
+An efficient Retrieval-Augmented Generation (RAG) system built to answer questions about a corpus of roughly 7,600 Medium articles. The system relies strictly on the provided dataset context to eliminate hallucinations and deliver evidence-based responses.
 
 ## 🚀 Live Demo & API Endpoints
 * [cite_start]**Live URL:** `https://your-project-name.vercel.app` [cite: 61]
