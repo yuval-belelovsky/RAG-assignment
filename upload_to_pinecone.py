@@ -91,9 +91,24 @@ def upload_chunks_to_pinecone(chunks):
 
 
 if __name__ == "__main__":
-    # 1. Load and process only the first 5 articles for safe testing
-    test_chunks = process_small_dataset("medium-english-50mb.csv", limit=5)
+    # 1. Import the final winning parameters from your server config
+    from main import CHUNK_SIZE, OVERLAP_RATIO
 
-    # 2. Run the pipeline to embed and upload data
+    print(f"🚀 FINAL RUN: Preparing FULL dataset with parameters: Chunk Size = {CHUNK_SIZE}, Overlap = {OVERLAP_RATIO}")
+
+    # 🛑 COMMENTED OUT FOR SAFETY: We do not want to wipe out data during the huge full run if we need to restart!
+    # print("🧹 Clearing all existing vectors from the Pinecone index...")
+    # index.delete(delete_all=True)
+
+    # 2. Load and process the ENTIRE dataset (Removing the limit=5)
+    # This will load all 7,600+ articles from the CSV file
+    test_chunks = process_small_dataset(
+        "medium-english-50mb.csv",
+        limit=None,  # None means load all rows in the dataset!
+        chunk_size=CHUNK_SIZE,
+        overlap_ratio=OVERLAP_RATIO
+    )
+
+    # 3. Embed and upload everything to the Pinecone cloud in batches of 20
     if test_chunks:
         upload_chunks_to_pinecone(test_chunks)

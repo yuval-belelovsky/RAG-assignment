@@ -20,9 +20,9 @@ index = pc.Index(host=PINECONE_HOST)
 app = FastAPI()
 
 # RAG Hyperparameters chosen within assignment constraints
-CHUNK_SIZE = 500
+CHUNK_SIZE = 800
 OVERLAP_RATIO = 0.2
-TOP_K = 5
+TOP_K = 10
 
 
 # Define the precise incoming JSON structure
