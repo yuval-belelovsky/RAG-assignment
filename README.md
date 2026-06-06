@@ -7,9 +7,9 @@ An efficient Retrieval-Augmented Generation (RAG) system built to answer questio
 * **API Documentation (Swagger):** `https://rag-assignment-blush.vercel.app/docs`
 
 ## ⚙️ Hyperparameters
-* **Chunk Size:** `800` (Max 1024 tokens)
-* **Overlap Ratio:** `0.2` (Max 0.3)
-* **Top-K:** `10` (Max 30)
+* **Chunk Size:** `800` 
+* **Overlap Ratio:** `0.2` 
+* **Top-K:** `10` 
 
 ## 🗄️ API Specifications
 1. `POST /api/prompt` - Queries the system with a natural language question.
@@ -17,4 +17,4 @@ An efficient Retrieval-Augmented Generation (RAG) system built to answer questio
 
 ## 🔒 Safety Fallback
 If a user query cannot be answered using the dataset context, the system strictly responds with:
-"I don't know based on the provided Medium articles data."
+`"I don't know based on the provided Medium articles data."`
